@@ -13,6 +13,7 @@ import Head from "next/head";
 import { QueryClient, QueryClientProvider } from "react-query";
 import createEmotionCache from "../createEmotionCache";
 import theme from "../theme";
+import "./global.css";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
