@@ -1,4 +1,4 @@
-import create, { GetState, SetState } from "zustand";
+import create, { SetState } from "zustand";
 
 interface ISnackBarStore {
   successMessage: string;
