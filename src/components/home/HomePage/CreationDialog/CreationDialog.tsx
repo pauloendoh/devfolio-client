@@ -1,8 +1,9 @@
-import SaveCancelButtons from "@/components/_common/buttons/SaveCancelButtons";
-import MyTextField from "@/components/_common/inputs/MyTextField";
-import useSaveCreationMutation from "@/hooks/react-query/creation/useSaveCreationMutation";
-import CreationDto from "@/types/domain/creation/CreationDto";
-import { DatePicker } from "@mui/lab";
+import SaveCancelButtons from "@/components/_common/buttons/SaveCancelButtons"
+import FlexVCenter from "@/components/_common/flexboxes/FlexVCenter"
+import MyTextField from "@/components/_common/inputs/MyTextField"
+import useSaveCreationMutation from "@/hooks/react-query/creation/useSaveCreationMutation"
+import CreationDto from "@/types/domain/creation/CreationDto"
+import { DatePicker } from "@mui/lab"
 import {
   Autocomplete,
   Box,
@@ -14,37 +15,38 @@ import {
   MenuItem,
   Select,
   TextField,
-} from "@mui/material";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import utils from "./CreationDialog.utils";
+} from "@mui/material"
+import { useEffect } from "react"
+import { useForm } from "react-hook-form"
+import utils from "./CreationDialog.utils"
+
 interface Props {
-  open: boolean;
-  initialValue: CreationDto;
-  onClose: () => void;
-  afterSave?: (returned: CreationDto) => void;
+  open: boolean
+  initialValue: CreationDto
+  onClose: () => void
+  afterSave?: (returned: CreationDto) => void
 }
 
 const CreationDialog = (props: Props) => {
-  const { mutate } = useSaveCreationMutation();
+  const { mutate } = useSaveCreationMutation()
 
   // const history = useRouter();
 
   // const { setSuccessMessage } = useSnackbarStore();
 
   const handleClose = () => {
-    props.onClose();
-  };
+    props.onClose()
+  }
 
   const onSubmit = (values: CreationDto) => {
     mutate(values, {
       onSuccess: (data) => {
         // setSuccessMessage("Decision saved!");
-        handleClose();
+        handleClose()
         // history.push(pageUrls.BigDecisions.decision(data.id));
       },
-    });
-  };
+    })
+  }
 
   const {
     handleSubmit,
@@ -56,13 +58,13 @@ const CreationDialog = (props: Props) => {
     reset,
   } = useForm<CreationDto>({
     defaultValues: props.initialValue,
-  });
+  })
 
   useEffect(() => {
-    if (props.open) reset(props.initialValue);
+    if (props.open) reset(props.initialValue)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.open]);
+  }, [props.open])
 
   return (
     <Dialog
@@ -100,35 +102,42 @@ const CreationDialog = (props: Props) => {
               {...register("description")}
             />
 
-            <FormControl fullWidth size="small" sx={{ mt: 2 }}>
-              <InputLabel id="demo-simple-select-label">Complexity</InputLabel>
-              <Select
-                label="Complexity"
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                defaultValue={props.initialValue.complexity}
-                {...register("complexity")}
-              >
-                <MenuItem value={undefined}> </MenuItem>
+            <FlexVCenter sx={{ mt: 2 }} gap={2}>
+              <FormControl fullWidth size="small">
+                <InputLabel id="demo-simple-select-label">
+                  Complexity
+                </InputLabel>
+                <Select
+                  label="Complexity"
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  defaultValue={props.initialValue.complexity}
+                  {...register("complexity")}
+                >
+                  <MenuItem value={undefined}> </MenuItem>
 
-                {utils.fibonacciNumbers.map((num) => (
-                  <MenuItem key={num} value={num}>
-                    {num}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                  {utils.fibonacciNumbers.map((num) => (
+                    <MenuItem key={num} value={num}>
+                      {num}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
-            <DatePicker
-              label="Basic example"
-              inputFormat="dd/MM/yyyy"
-              value={watch("date")}
-              onChange={(newValue) => {
-                setValue("date", newValue);
-              }}
-              renderInput={(params) => <TextField {...params} />}
-            />
+              <DatePicker
+                label="Created at"
+                inputFormat="dd/MM/yyyy"
+                value={watch("date")}
+                onChange={(newValue) => {
+                  setValue("date", newValue)
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FlexVCenter>
 
+            <Box mt={2} />
             <Autocomplete
               multiple
               id="tags-standard"
@@ -137,13 +146,18 @@ const CreationDialog = (props: Props) => {
               freeSolo
               // getOptionLabel={(option) => option.title}
               onChange={(_, val) => {
-                setValue("technologies", val as string[]);
+                setValue("technologies", val as string[])
               }}
               renderInput={(params) => (
                 <MyTextField
                   {...params}
-                  label="Multiple values"
-                  placeholder="Favorites"
+                  label="Technologies (5 max)"
+                  placeholder={
+                    watch("technologies").length > 0
+                      ? ""
+                      : "React, TypeScript, etc... Ctrl Enter to add new"
+                  }
+                  size="small"
                 />
               )}
             />
@@ -154,7 +168,7 @@ const CreationDialog = (props: Props) => {
         </form>
       </Box>
     </Dialog>
-  );
-};
+  )
+}
 
-export default CreationDialog;
+export default CreationDialog

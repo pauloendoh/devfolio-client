@@ -1,24 +1,31 @@
-import Flex from "@/components/_common/flexboxes/Flex";
-import FlexCol from "@/components/_common/flexboxes/FlexCol";
-import FlexVCenter from "@/components/_common/flexboxes/FlexVCenter";
-import useTechCount from "@/hooks/domain/creation/tech/useTechCount";
-import useCreationsQuery from "@/hooks/react-query/creation/useCreationsQuery";
-import { useGithubUserInfo } from "@/hooks/useGithubUsername";
-import { Box, Button, Container, Typography } from "@mui/material";
-import { signOut, useSession } from "next-auth/react";
-import Image from "next/image";
-import { FaGithub } from "react-icons/fa";
-import CreationsTable from "./CreationsTable/CreationsTable";
-import TopTechnologies from "./TopTechnologies/TopTechnologies";
+import Flex from "@/components/_common/flexboxes/Flex"
+import FlexCol from "@/components/_common/flexboxes/FlexCol"
+import FlexHCenter from "@/components/_common/flexboxes/FlexHCenter"
+import FlexVCenter from "@/components/_common/flexboxes/FlexVCenter"
+import useTechCount from "@/hooks/domain/creation/tech/useTechCount"
+import useCreationsQuery from "@/hooks/react-query/creation/useCreationsQuery"
+import { useGithubUserInfo } from "@/hooks/useGithubUsername"
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Typography,
+} from "@mui/material"
+import { signOut, useSession } from "next-auth/react"
+import Image from "next/image"
+import { FaGithub } from "react-icons/fa"
+import CreationsTable from "./CreationsTable/CreationsTable"
+import TopTechnologies from "./TopTechnologies/TopTechnologies"
 
 const HomePage = () => {
-  const { data } = useSession();
-  const { userCreations } = useCreationsQuery();
-  const techCount = useTechCount();
+  const { data } = useSession()
+  const { data: userCreations, isLoading } = useCreationsQuery()
+  const techCount = useTechCount()
 
-  const userInfo = useGithubUserInfo(data?.user?.image);
+  const userInfo = useGithubUserInfo(data?.user?.image)
 
-  if (!data?.user) return null;
+  if (!data?.user) return null
 
   return (
     <div>
@@ -56,11 +63,17 @@ const HomePage = () => {
         <Box mt={5} />
         <TopTechnologies />
         <Box mt={4}>
-          <CreationsTable creations={userCreations || []} />
+          {isLoading ? (
+            <FlexHCenter>
+              <CircularProgress />
+            </FlexHCenter>
+          ) : (
+            <CreationsTable creations={userCreations || []} />
+          )}
         </Box>
       </Container>
     </div>
-  );
-};
+  )
+}
 
-export default HomePage;
+export default HomePage

@@ -1,5 +1,6 @@
-import { buildCreationDto } from "@/types/domain/creation/CreationDto";
-import DTO from "@/types/utils/DTO";
+import Flex from "@/components/_common/flexboxes/Flex"
+import { buildCreationDto } from "@/types/domain/creation/CreationDto"
+import DTO from "@/types/utils/DTO"
 import {
   Button,
   Chip,
@@ -12,88 +13,88 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
-} from "@mui/material";
-import { Creation } from "@prisma/client";
-import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
-import { MdAdd } from "react-icons/md";
-import ReactTimeago from "react-timeago";
-import CreationDialog from "../CreationDialog/CreationDialog";
+} from "@mui/material"
+import { Creation } from "@prisma/client"
+import { useRouter } from "next/router"
+import { useMemo, useState } from "react"
+import { MdAdd } from "react-icons/md"
+import ReactTimeago from "react-timeago"
+import CreationDialog from "../CreationDialog/CreationDialog"
 
 interface Props {
-  creations: DTO<Creation>[];
+  creations: DTO<Creation>[]
 }
 
 const CreationsTable = ({ creations }: Props) => {
-  const router = useRouter();
+  const router = useRouter()
 
-  const techs = router.query.techs;
+  const techs = router.query.techs
 
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false)
   const [dialogInitialValue, setDialogInitialValue] = useState(
     buildCreationDto()
-  );
+  )
 
   const [sort, setSort] = useState<{
-    by: keyof DTO<Creation>;
-    order: "desc" | "asc";
+    by: keyof DTO<Creation>
+    order: "desc" | "asc"
   }>({
     by: "date",
     order: "desc",
-  });
+  })
 
   const sortedCreations = useMemo(() => {
     if (sort.by === "complexity") {
       if (sort.order === "desc")
         return creations.sort((a, b) => {
-          if (a.complexity === null) return 1;
-          if (b.complexity === null) return -1;
-          return a.complexity > b.complexity ? -1 : 1;
-        });
+          if (a.complexity === null) return 1
+          if (b.complexity === null) return -1
+          return a.complexity > b.complexity ? -1 : 1
+        })
 
       return creations.sort((a, b) => {
-        if (a.complexity === null) return 1;
-        if (b.complexity === null) return -1;
-        return a.complexity < b.complexity ? -1 : 1;
-      });
+        if (a.complexity === null) return 1
+        if (b.complexity === null) return -1
+        return a.complexity < b.complexity ? -1 : 1
+      })
     }
 
     if (sort.by === "date") {
       if (sort.order === "desc")
         return creations.sort((a, b) => {
-          if (a.date === null) return 1;
-          if (b.date === null) return -1;
-          return b.date?.localeCompare(a.date);
-        });
+          if (a.date === null) return 1
+          if (b.date === null) return -1
+          return b.date?.localeCompare(a.date)
+        })
 
       return creations.sort((a, b) => {
-        if (a.date === null) return 1;
-        if (b.date === null) return -1;
-        return a.date?.localeCompare(b.date);
-      });
+        if (a.date === null) return 1
+        if (b.date === null) return -1
+        return a.date?.localeCompare(b.date)
+      })
     }
 
-    return creations;
-  }, [creations, sort]);
+    return creations
+  }, [creations, sort])
 
   const sortedAndFilteredCreations = useMemo(() => {
     if (techs) {
       if (typeof techs === "string")
         return sortedCreations.filter((creation) =>
           creation.technologies.includes(techs)
-        );
+        )
     }
-    return sortedCreations;
-  }, [sortedCreations, techs]);
+    return sortedCreations
+  }, [sortedCreations, techs])
 
   const handleClickSort = (attribute: keyof DTO<Creation>) => {
     if (sort.by === attribute) {
       setSort({
         by: attribute,
         order: sort.order === "asc" ? "desc" : "asc",
-      });
-    } else setSort({ by: attribute, order: "desc" });
-  };
+      })
+    } else setSort({ by: attribute, order: "desc" })
+  }
 
   return (
     <>
@@ -138,9 +139,9 @@ const CreationsTable = ({ creations }: Props) => {
                 key={creation.id}
                 hover
                 onClick={() => {
-                  setDialogInitialValue(buildCreationDto(creation));
+                  setDialogInitialValue(buildCreationDto(creation))
 
-                  setDialogOpen(true);
+                  setDialogOpen(true)
                 }}
                 sx={{
                   cursor: "pointer",
@@ -155,9 +156,11 @@ const CreationsTable = ({ creations }: Props) => {
                   <ReactTimeago date={creation.date} live={false} />
                 </TableCell>
                 <TableCell>
-                  {creation.technologies.map((tech) => (
-                    <Chip key={tech} label={tech} />
-                  ))}
+                  <Flex gap={1} flexWrap="wrap">
+                    {creation.technologies.map((tech) => (
+                      <Chip key={tech} label={tech} size="small" />
+                    ))}
+                  </Flex>
                 </TableCell>
               </TableRow>
             ))}
@@ -166,8 +169,8 @@ const CreationsTable = ({ creations }: Props) => {
             <TableRow>
               <Button
                 onClick={() => {
-                  setDialogInitialValue(buildCreationDto());
-                  setDialogOpen(true);
+                  setDialogInitialValue(buildCreationDto())
+                  setDialogOpen(true)
                 }}
                 startIcon={<MdAdd />}
                 variant="contained"
@@ -185,7 +188,7 @@ const CreationsTable = ({ creations }: Props) => {
         open={dialogOpen}
       />
     </>
-  );
-};
+  )
+}
 
-export default CreationsTable;
+export default CreationsTable
