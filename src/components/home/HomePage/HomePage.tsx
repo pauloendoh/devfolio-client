@@ -4,6 +4,7 @@ import FlexHCenter from "@/components/_common/flexboxes/FlexHCenter"
 import FlexVCenter from "@/components/_common/flexboxes/FlexVCenter"
 import useTechCount from "@/hooks/domain/creation/tech/useTechCount"
 import useCreationsQuery from "@/hooks/react-query/creation/useCreationsQuery"
+import { myTrpc } from "@/hooks/trpc/myTrpc"
 import { useGithubUserInfo } from "@/hooks/useGithubUsername"
 import {
   Box,
@@ -23,12 +24,15 @@ const HomePage = () => {
   const { data: userCreations, isLoading } = useCreationsQuery()
   const techCount = useTechCount()
 
+  const helloQuery = myTrpc.hello.useQuery({ text: "client" })
+
   const userInfo = useGithubUserInfo(data?.user?.image)
 
   if (!data?.user) return null
 
   return (
     <div>
+      {helloQuery?.data?.greeting}
       HELLO! {data.user?.name} -{" "}
       <Button onClick={() => signOut()}>logout</Button>
       <Container sx={{ mt: 4 }}>

@@ -1,31 +1,36 @@
-import SnackbarWrapper from "@/components/layout/Snackbar/SnackbarWrapper";
+import SnackbarWrapper from "@/components/layout/Snackbar/SnackbarWrapper"
+import { myTrpc } from "@/hooks/trpc/myTrpc"
 import {
   CacheProvider as EmotionCacheProvider,
   EmotionCache,
-} from "@emotion/react";
-import DateAdapter from "@mui/lab/AdapterLuxon";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import CssBaseline from "@mui/material/CssBaseline";
-import { ThemeProvider } from "@mui/material/styles";
-import { SessionProvider } from "next-auth/react";
-import { AppProps } from "next/app";
-import Head from "next/head";
-import { QueryClient, QueryClientProvider } from "react-query";
-import createEmotionCache from "../createEmotionCache";
-import theme from "../theme";
-import "./global.css";
+} from "@emotion/react"
+import DateAdapter from "@mui/lab/AdapterLuxon"
+import LocalizationProvider from "@mui/lab/LocalizationProvider"
+import CssBaseline from "@mui/material/CssBaseline"
+import { ThemeProvider } from "@mui/material/styles"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { Session } from "next-auth"
+import { SessionProvider } from "next-auth/react"
+import { AppProps } from "next/app"
+import Head from "next/head"
+import createEmotionCache from "../createEmotionCache"
+import theme from "../theme"
+import "./global.css"
 
 // Client-side cache, shared for the whole session of the user in the browser.
-const clientSideEmotionCache = createEmotionCache();
+const clientSideEmotionCache = createEmotionCache()
 
-interface MyAppProps extends AppProps {
-  emotionCache?: EmotionCache;
+interface MyAppProps
+  extends AppProps<{
+    session: Session
+  }> {
+  emotionCache?: EmotionCache
 }
 
-export default function MyApp(props: MyAppProps) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+function MyApp(props: MyAppProps) {
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
 
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient()
 
   return (
     <SessionProvider session={props.pageProps.session}>
@@ -48,5 +53,7 @@ export default function MyApp(props: MyAppProps) {
         </EmotionCacheProvider>
       </QueryClientProvider>
     </SessionProvider>
-  );
+  )
 }
+
+export default myTrpc.withTRPC(MyApp)
