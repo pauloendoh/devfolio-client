@@ -102,7 +102,7 @@ const CreationsTable = ({ creations }: Props) => {
         <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Creation</TableCell>
+              <TableCell>Features</TableCell>
 
               <TableCell
                 align="center"

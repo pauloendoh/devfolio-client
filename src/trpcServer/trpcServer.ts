@@ -1,5 +1,5 @@
 import { initTRPC } from "@trpc/server"
-import { TrpcContext } from "./_TrpcContext"
+import { TrpcContext } from "./TrpcContext"
 // Avoid exporting the entire t-object
 // since it's not very descriptive.
 // For instance, the use of a t variable

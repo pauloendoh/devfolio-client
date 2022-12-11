@@ -14,11 +14,12 @@
     "jsx": "preserve",
     "jsxImportSource": "@emotion/react",
     "incremental": true,
+    "strictNullChecks": true,
+
     "baseUrl": "src",
     "paths": {
       "@/*": ["./*"]
-    },
-    "strict": true
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
