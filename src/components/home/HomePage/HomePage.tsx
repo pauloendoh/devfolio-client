@@ -25,6 +25,7 @@ const HomePage = () => {
   const techCount = useTechCount()
 
   const helloQuery = myTrpc.hello.useQuery({ text: "client" })
+  const meQuery = myTrpc.user.me.useQuery()
 
   const userInfo = useGithubUserInfo(data?.user?.image)
 
@@ -32,8 +33,7 @@ const HomePage = () => {
 
   return (
     <div>
-      {helloQuery?.data?.greeting}
-      HELLO! {data.user?.name} -{" "}
+      {meQuery?.data?.name}
       <Button onClick={() => signOut()}>logout</Button>
       <Container sx={{ mt: 4 }}>
         <Flex gap={2}>
