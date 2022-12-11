@@ -18,7 +18,7 @@ import {
 } from "@mui/material"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
-import utils from "./CreationDialog.utils"
+import utils from "./FeatureDialog.utils"
 
 interface Props {
   open: boolean
@@ -77,7 +77,7 @@ const CreationDialog = (props: Props) => {
       <Box pb={1} px={1}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogTitle id="creation-dialog-title">
-            {watch("id") ? "Edit Creation" : "New Creation"}
+            {watch("id") ? "Edit Feature" : "New Feature"}
           </DialogTitle>
           <DialogContent>
             <Box>

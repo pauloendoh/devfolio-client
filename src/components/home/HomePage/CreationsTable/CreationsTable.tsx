@@ -19,7 +19,7 @@ import { useRouter } from "next/router"
 import { useMemo, useState } from "react"
 import { MdAdd } from "react-icons/md"
 import ReactTimeago from "react-timeago"
-import CreationDialog from "../CreationDialog/CreationDialog"
+import FeatureDialog from "../FeatureDialog/FeatureDialog"
 
 interface Props {
   creations: DTO<Creation>[]
@@ -176,13 +176,13 @@ const CreationsTable = ({ creations }: Props) => {
                 variant="contained"
                 sx={{ width: 140, mb: 2, ml: 2 }}
               >
-                Add Creation
+                Add Feature
               </Button>
             </TableRow>
           </TableFooter>
         </Table>
       </TableContainer>
-      <CreationDialog
+      <FeatureDialog
         initialValue={dialogInitialValue}
         onClose={() => setDialogOpen(false)}
         open={dialogOpen}

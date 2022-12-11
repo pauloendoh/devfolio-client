@@ -11,17 +11,6 @@ export const nextAuthOptions: NextAuthOptions = {
       clientId: String(process.env.GITHUB_ID),
       clientSecret: String(process.env.GITHUB_SECRET),
     }),
-    // EmailProvider({
-    //   server: {
-    //     host: process.env.SMTP_HOST,
-    //     port: Number(process.env.SMTP_PORT),
-    //     auth: {
-    //       user: process.env.SMTP_USER,
-    //       pass: process.env.SMTP_PASSWORD,
-    //     },
-    //   },
-    //   from: process.env.SMTP_FROM,
-    // }),
   ],
   adapter: PrismaAdapter(prisma),
   callbacks: {
