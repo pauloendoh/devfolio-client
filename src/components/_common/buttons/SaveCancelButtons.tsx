@@ -1,12 +1,10 @@
-import { Box, Button } from "@mui/material";
-import React from "react";
-import Flex from "../flexboxes/Flex";
+import { Box, Button, Flex } from "@mantine/core"
 
 interface Props {
-  submitButtonId?: string;
-  disabled?: boolean;
-  onSave?: () => void;
-  onCancel?: () => void;
+  submitButtonId?: string
+  disabled?: boolean
+  onSave?: () => void
+  onCancel?: () => void
 }
 
 const SaveCancelButtons = (props: Props) => {
@@ -14,7 +12,6 @@ const SaveCancelButtons = (props: Props) => {
     <Flex>
       <Button
         type="submit"
-        variant="contained"
         color="primary"
         id={props.submitButtonId}
         disabled={props.disabled}
@@ -29,7 +26,7 @@ const SaveCancelButtons = (props: Props) => {
         </Button>
       </Box>
     </Flex>
-  );
-};
+  )
+}
 
-export default SaveCancelButtons;
+export default SaveCancelButtons

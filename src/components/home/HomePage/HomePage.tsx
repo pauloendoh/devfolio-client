@@ -1,4 +1,3 @@
-import Flex from "@/components/_common/flexboxes/Flex"
 import FlexCol from "@/components/_common/flexboxes/FlexCol"
 import FlexHCenter from "@/components/_common/flexboxes/FlexHCenter"
 import FlexVCenter from "@/components/_common/flexboxes/FlexVCenter"
@@ -6,13 +5,8 @@ import useTechCount from "@/hooks/domain/creation/tech/useTechCount"
 import useCreationsQuery from "@/hooks/react-query/creation/useCreationsQuery"
 import { myTrpc } from "@/hooks/trpc/myTrpc"
 import { useGithubUserInfo } from "@/hooks/useGithubUsername"
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Container,
-  Typography,
-} from "@mui/material"
+import { Box, Button, Container, Flex, Loader, Text } from "@mantine/core"
+
 import { signOut, useSession } from "next-auth/react"
 import Image from "next/image"
 import { FaGithub } from "react-icons/fa"
@@ -48,10 +42,10 @@ const HomePage = () => {
             />
           </Box>
           <FlexCol>
-            <Typography variant="h6">{data.user.name}</Typography>
+            <Text size="md">{data.user.name}</Text>
 
             <FlexVCenter gap={1}>
-              <Typography color="#979797">@{userInfo?.login}</Typography>
+              <Text color="#979797">@{userInfo?.login}</Text>
 
               <a
                 href={`https://github.com/${userInfo?.login}`}
@@ -69,7 +63,7 @@ const HomePage = () => {
         <Box mt={4}>
           {isLoading ? (
             <FlexHCenter>
-              <CircularProgress />
+              <Loader />
             </FlexHCenter>
           ) : (
             <CreationsTable creations={userCreations || []} />

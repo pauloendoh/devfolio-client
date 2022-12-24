@@ -3,22 +3,11 @@ import FlexVCenter from "@/components/_common/flexboxes/FlexVCenter"
 import MyTextField from "@/components/_common/inputs/MyTextField"
 import useSaveCreationMutation from "@/hooks/react-query/creation/useSaveCreationMutation"
 import CreationDto from "@/types/domain/creation/CreationDto"
-import { DatePicker } from "@mui/lab"
-import {
-  Autocomplete,
-  Box,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material"
+import { Box, Modal, MultiSelect, Select } from "@mantine/core"
+import { DatePicker } from "@mantine/dates"
+
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
-import utils from "./FeatureDialog.utils"
 
 interface Props {
   open: boolean
@@ -67,107 +56,81 @@ const CreationDialog = (props: Props) => {
   }, [props.open])
 
   return (
-    <Dialog
+    <Modal
       onClose={handleClose}
-      open={props.open}
-      fullWidth
-      maxWidth="xs"
+      opened={props.open}
+      size="xs"
       aria-labelledby="creation-dialog"
+      title={watch("id") ? "Edit Feature" : "New Feature"}
     >
       <Box pb={1} px={1}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogTitle id="creation-dialog-title">
-            {watch("id") ? "Edit Feature" : "New Feature"}
-          </DialogTitle>
-          <DialogContent>
-            <Box>
-              <MyTextField
-                size="small"
-                label="Title"
-                fullWidth
-                required
-                autoFocus
-                sx={{ mt: 2 }}
-                {...register("title")}
-              />
-            </Box>
-
+          <Box>
             <MyTextField
-              size="small"
-              label="Description"
-              fullWidth
-              multiline
+              label="Title"
+              width="100%"
+              required
+              autoFocus
               sx={{ mt: 2 }}
-              onCtrlEnter={handleSubmit(onSubmit)}
-              {...register("description")}
+              {...register("title")}
             />
+          </Box>
 
-            <FlexVCenter sx={{ mt: 2 }} gap={2}>
-              <FormControl fullWidth size="small">
-                <InputLabel id="demo-simple-select-label">
-                  Complexity
-                </InputLabel>
-                <Select
-                  label="Complexity"
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  defaultValue={props.initialValue.complexity}
-                  {...register("complexity")}
-                >
-                  <MenuItem value={undefined}> </MenuItem>
+          <MyTextField
+            label="Description"
+            width="100%"
+            sx={{ mt: 2 }}
+            onCtrlEnter={handleSubmit(onSubmit)}
+            {...register("description")}
+          />
+
+          <FlexVCenter sx={{ mt: 2 }} gap={2}>
+            <Select
+              label="Complexity"
+              id="demo-simple-select"
+              // {...register("complexity")}
+              data={[
+                {
+                  value: "1",
+                  label: "1",
+                },
+              ]}
+            >
+              {/* <MenuItem value={undefined}> </MenuItem>
 
                   {utils.fibonacciNumbers.map((num) => (
                     <MenuItem key={num} value={num}>
                       {num}
                     </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+                  ))} */}
+            </Select>
 
-              <DatePicker
-                label="Created at"
-                inputFormat="dd/MM/yyyy"
-                value={watch("date")}
-                onChange={(newValue) => {
-                  setValue("date", newValue)
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} size="small" fullWidth />
-                )}
-              />
-            </FlexVCenter>
-
-            <Box mt={2} />
-            <Autocomplete
-              multiple
-              id="tags-standard"
-              options={[]}
-              value={watch("technologies")}
-              freeSolo
-              // getOptionLabel={(option) => option.title}
-              onChange={(_, val) => {
-                setValue("technologies", val as string[])
+            <DatePicker
+              label="Created at"
+              inputFormat="dd/MM/yyyy"
+              value={new Date(watch("date") || new Date())}
+              onChange={(newValue) => {
+                setValue("date", newValue?.toJSON() || null)
               }}
-              renderInput={(params) => (
-                <MyTextField
-                  {...params}
-                  label="Technologies (5 max)"
-                  placeholder={
-                    watch("technologies").length > 0
-                      ? ""
-                      : "React, TypeScript, etc... Ctrl Enter to add new"
-                  }
-                  size="small"
-                />
-              )}
             />
-          </DialogContent>
-          <DialogTitle>
-            <SaveCancelButtons disabled={isSubmitting} onCancel={handleClose} />
-          </DialogTitle>
+          </FlexVCenter>
+
+          <Box mt={2} />
+          <MultiSelect
+            id="tags-standard"
+            data={[]}
+            value={watch("technologies")}
+            // getOptionLabel={(option) => option.title}
+            onChange={(val) => {
+              setValue("technologies", val as string[])
+            }}
+          />
+
+          <Box mt={2} />
+          <SaveCancelButtons disabled={isSubmitting} onCancel={handleClose} />
         </form>
       </Box>
-    </Dialog>
+    </Modal>
   )
 }
 

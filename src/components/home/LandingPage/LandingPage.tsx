@@ -1,8 +1,8 @@
-import FlexCol from "@/components/_common/flexboxes/FlexCol";
-import FlexVCenter from "@/components/_common/flexboxes/FlexVCenter";
-import { Button, Paper, Typography } from "@mui/material";
-import { signIn } from "next-auth/react";
-import { FaGithub } from "react-icons/fa";
+import FlexCol from "@/components/_common/flexboxes/FlexCol"
+import FlexVCenter from "@/components/_common/flexboxes/FlexVCenter"
+import { Button, Paper, Text } from "@mantine/core"
+import { signIn } from "next-auth/react"
+import { FaGithub } from "react-icons/fa"
 
 const LandingPage = () => {
   return (
@@ -15,35 +15,33 @@ const LandingPage = () => {
           mx: "auto",
         }}
       >
-        <FlexCol gap={1} alignItems="center">
-          <Typography variant="h4">devfol.io</Typography>
-          <Typography>Porfolio for developers</Typography>
+        <FlexCol gap={1} align="center">
+          <Text size="md">devfol.io</Text>
+          <Text>Porfolio for developers</Text>
         </FlexCol>
 
         <FlexVCenter mt={2}>
           <hr style={{ width: "100%" }} />
-          <Typography sx={{ px: 1, whiteSpace: "nowrap" }}>
-            Enter via{" "}
-          </Typography>
+          <Text sx={{ px: 1, whiteSpace: "nowrap" }}>Enter via </Text>
           <hr style={{ width: "100%" }} />
         </FlexVCenter>
 
         <Button
           onClick={() => signIn("github")}
-          size="large"
-          variant="contained"
+          size="lg"
+          variant="filled"
           color="info"
           sx={{ mt: 2, width: 250 }}
           fullWidth
         >
           <FlexVCenter gap={1}>
             <FaGithub />
-            <Typography>Github</Typography>
+            <Text>Github</Text>
           </FlexVCenter>
         </Button>
       </Paper>
     </div>
-  );
-};
+  )
+}
 
-export default LandingPage;
+export default LandingPage

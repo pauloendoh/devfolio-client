@@ -1,15 +1,21 @@
-import { Box } from "@mui/material";
-import React from "react";
+import { Flex } from "@mantine/core"
+import React from "react"
 
-// PE 3/3
+type Props = React.ComponentProps<typeof Flex> & {
+  children: React.ReactNode
+}
+
 const FlexCol = (props: Props) => {
   return (
-    <Box display="flex" flexDirection="column" {...props}>
+    <Flex
+      sx={{
+        flexDirection: "column",
+      }}
+      {...props}
+    >
       {props.children}
-    </Box>
-  );
-};
+    </Flex>
+  )
+}
 
-type Props = React.ComponentProps<typeof Box>;
-
-export default FlexCol;
+export default FlexCol

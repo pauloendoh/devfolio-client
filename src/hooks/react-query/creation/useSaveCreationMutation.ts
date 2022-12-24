@@ -1,4 +1,4 @@
-import useSnackbarStore from "@/hooks/zustand/useSnackbarStore"
+import { useMyNotifications } from "@/hooks/useMyNotifications"
 import CreationDto from "@/types/domain/creation/CreationDto"
 import DTO from "@/types/utils/DTO"
 import pushOrReplace from "@/utils/pushOrReplace"
@@ -10,7 +10,7 @@ import axios from "axios"
 // import useSnackbarStore from "../../../../zustand-stores/useSnackbarStore";
 
 const useSaveCreationMutation = () => {
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
+  const { setSuccessMessage, setErrorMessage } = useMyNotifications()
 
   const queryClient = useQueryClient()
 

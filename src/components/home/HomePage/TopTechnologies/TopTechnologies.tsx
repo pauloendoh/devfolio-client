@@ -1,37 +1,36 @@
-import Flex from "@/components/_common/flexboxes/Flex";
-import FlexVCenter from "@/components/_common/flexboxes/FlexVCenter";
-import useTechCount from "@/hooks/domain/creation/tech/useTechCount";
-import urls from "@/utils/urls";
-import { Box, Button, Typography } from "@mui/material";
-import { useRouter } from "next/router";
+import FlexVCenter from "@/components/_common/flexboxes/FlexVCenter"
+import useTechCount from "@/hooks/domain/creation/tech/useTechCount"
+import urls from "@/utils/urls"
+import { Box, Button, Flex, Text } from "@mantine/core"
+import { useRouter } from "next/router"
 
 const TopTechnologies = () => {
-  const router = useRouter();
-  const techs = router.query.techs;
+  const router = useRouter()
+  const techs = router.query.techs
 
-  const techCount = useTechCount();
+  const techCount = useTechCount()
 
   const handleClickTech = (tech: string) => {
-    if (techs && techs === tech) return router.push(urls.pages.index);
-    return router.push(urls.pages.homeTechs([tech]));
-  };
+    if (techs && techs === tech) return router.push(urls.pages.index)
+    return router.push(urls.pages.homeTechs([tech]))
+  }
 
   const techIsSelected = (tech: string) => {
-    const techs = router.query.techs;
-    if (techs && (techs === tech || techs.includes(tech))) return true;
-    return false;
-  };
+    const techs = router.query.techs
+    if (techs && (techs === tech || techs.includes(tech))) return true
+    return false
+  }
 
   return (
     <Flex sx={{ flexWrap: "wrap" }}>
-      <Typography>Top technologies: </Typography>
+      <Text>Top technologies: </Text>
 
       <Flex sx={{ flexWrap: "wrap", gap: 1, ml: 1 }}>
         {techCount.map((tc) => (
           <Button
             key={tc.techName}
-            variant="outlined"
-            size="small"
+            variant="outline"
+            size="sm"
             color="inherit"
             onClick={() => handleClickTech(tc.techName)}
             sx={{
@@ -57,7 +56,7 @@ const TopTechnologies = () => {
         ))}
       </Flex>
     </Flex>
-  );
-};
+  )
+}
 
-export default TopTechnologies;
+export default TopTechnologies

@@ -1,15 +1,22 @@
-import { Box } from "@mui/material";
-import React from "react";
+import { Flex } from "@mantine/core"
+import React from "react"
+
+type Props = React.ComponentProps<typeof Flex> & {
+  children: React.ReactNode
+}
 
 // PE 3/3
 const FlexVCenter = (props: Props) => {
   return (
-    <Box display="flex" alignItems="center" {...props}>
+    <Flex
+      sx={{
+        alignItems: "center",
+      }}
+      {...props}
+    >
       {props.children}
-    </Box>
-  );
-};
+    </Flex>
+  )
+}
 
-type Props = React.ComponentProps<typeof Box>;
-
-export default FlexVCenter;
+export default FlexVCenter
