@@ -164,7 +164,7 @@ const CreationsTable = ({ creations }: Props) => {
                   setDialogOpen(true)
                 }}
                 leftIcon={<MdAdd />}
-                sx={{ width: 140, mb: 2, ml: 2 }}
+                sx={{ width: 140, marginBottom: 16, marginLeft: 16 }}
               >
                 Add Feature
               </Button>

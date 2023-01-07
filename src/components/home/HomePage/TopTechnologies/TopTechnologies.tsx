@@ -26,7 +26,7 @@ const TopTechnologies = () => {
     <Flex sx={{ flexWrap: "wrap" }}>
       <Text>Top technologies: </Text>
 
-      <Flex sx={{ flexWrap: "wrap", gap: 1, ml: 1 }}>
+      <Flex sx={{ flexWrap: "wrap", gap: 8, marginLeft: 8 }}>
         {techCount.map((tc) => (
           <Chip
             key={tc.techName}

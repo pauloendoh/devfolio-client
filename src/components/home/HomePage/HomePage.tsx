@@ -30,21 +30,22 @@ const HomePage = () => {
       <MyNavbar />
 
       <Container>
-        <Flex gap={2}>
-          <Box sx={{ borderRadius: 64, overflow: "hidden" }}>
-            <Image
-              loader={() => `${data.user?.image}`}
-              unoptimized
-              width={64}
-              height={64}
-              src={`${data.user.image}`}
-              alt="profile-image"
-            />
-          </Box>
+        <Flex gap={16}>
+          <Image
+            loader={() => `${data.user?.image}`}
+            unoptimized
+            width={64}
+            height={64}
+            style={{
+              borderRadius: 64,
+            }}
+            src={`${data.user.image}`}
+            alt="profile-image"
+          />
           <FlexCol>
             <Text size="md">{data.user.name}</Text>
 
-            <FlexVCenter gap={1}>
+            <FlexVCenter gap={8}>
               <Text color="#979797">@{userInfo?.login}</Text>
 
               <a
@@ -58,9 +59,9 @@ const HomePage = () => {
           </FlexCol>
         </Flex>
 
-        <Box mt={5} />
+        <Box mt={32} />
         <TopTechnologies />
-        <Box mt={4}>
+        <Box mt={16}>
           {isLoading ? (
             <FlexHCenter>
               <Loader />

@@ -8,6 +8,7 @@ import { DatePicker } from "@mantine/dates"
 
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
+import utils from "./FeatureDialog.utils"
 
 interface Props {
   open: boolean
@@ -71,7 +72,7 @@ const CreationDialog = (props: Props) => {
               width="100%"
               required
               autoFocus
-              sx={{ mt: 2 }}
+              sx={{ marginTop: 16 }}
               {...register("title")}
             />
           </Box>
@@ -79,31 +80,21 @@ const CreationDialog = (props: Props) => {
           <MyTextField
             label="Description"
             width="100%"
-            sx={{ mt: 2 }}
+            sx={{ marginTop: 16 }}
             onCtrlEnter={handleSubmit(onSubmit)}
             {...register("description")}
           />
 
-          <FlexVCenter sx={{ mt: 2 }} gap={2}>
+          <FlexVCenter sx={{ marginTop: 16 }} gap={16}>
             <Select
               label="Complexity"
               id="demo-simple-select"
               // {...register("complexity")}
-              data={[
-                {
-                  value: "1",
-                  label: "1",
-                },
-              ]}
-            >
-              {/* <MenuItem value={undefined}> </MenuItem>
-
-                  {utils.fibonacciNumbers.map((num) => (
-                    <MenuItem key={num} value={num}>
-                      {num}
-                    </MenuItem>
-                  ))} */}
-            </Select>
+              data={utils.fibonacciNumbers.map((num) => ({
+                value: String(num),
+                label: String(num),
+              }))}
+            ></Select>
 
             <DatePicker
               label="Created at"
@@ -112,10 +103,11 @@ const CreationDialog = (props: Props) => {
               onChange={(newValue) => {
                 setValue("date", newValue?.toJSON() || null)
               }}
+              fullWidth
             />
           </FlexVCenter>
 
-          <Box mt={2} />
+          <Box mt={16} />
           <MultiSelect
             id="tags-standard"
             data={[]}
@@ -126,7 +118,7 @@ const CreationDialog = (props: Props) => {
             }}
           />
 
-          <Box mt={2} />
+          <Box mt={16} />
           <SaveCancelButtons disabled={isSubmitting} onCancel={handleClose} />
         </form>
       </Box>

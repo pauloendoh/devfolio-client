@@ -20,8 +20,8 @@ const SaveCancelButtons = (props: Props) => {
         Save
       </Button>
 
-      <Box ml={1}>
-        <Button onClick={props.onCancel} color="inherit">
+      <Box ml={8}>
+        <Button onClick={props.onCancel} variant="subtle">
           Cancel
         </Button>
       </Box>

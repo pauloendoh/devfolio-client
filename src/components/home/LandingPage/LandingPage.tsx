@@ -22,7 +22,7 @@ const LandingPage = () => {
           background: theme.colors.dark[5],
         })}
       >
-        <FlexCol gap={1} align="center">
+        <FlexCol gap={8} align="center">
           <Title order={1} sx={{ fontWeight: "normal" }}>
             devfol.io
           </Title>
@@ -37,10 +37,10 @@ const LandingPage = () => {
           size="lg"
           variant="filled"
           color="info"
-          sx={{ mt: 2, width: 250 }}
+          sx={{ marginTop: 16, width: 250 }}
           fullWidth
         >
-          <FlexVCenter gap={1}>
+          <FlexVCenter gap={8}>
             <FaGithub />
             <Text>Github</Text>
           </FlexVCenter>
