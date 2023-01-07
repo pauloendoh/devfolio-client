@@ -1,4 +1,5 @@
 import { myTrpc } from "@/hooks/trpc/myTrpc"
+import { theme } from "@/theme"
 import { MantineProvider } from "@mantine/core"
 import { NotificationsProvider } from "@mantine/notifications"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
@@ -25,21 +26,14 @@ function MyApp(props: MyAppProps) {
   return (
     <>
       <Head>
-        <title>Page title</title>
+        <title>devfol.io</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
 
-      <MantineProvider
-        withGlobalStyles
-        withNormalizeCSS
-        theme={{
-          /** Put your mantine theme override here */
-          colorScheme: "light",
-        }}
-      >
+      <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
         <NotificationsProvider>
           <SessionProvider session={props.pageProps.session}>
             <QueryClientProvider client={queryClient}>

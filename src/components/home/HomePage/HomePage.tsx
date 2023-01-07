@@ -5,12 +5,13 @@ import useTechCount from "@/hooks/domain/creation/tech/useTechCount"
 import useCreationsQuery from "@/hooks/react-query/creation/useCreationsQuery"
 import { myTrpc } from "@/hooks/trpc/myTrpc"
 import { useGithubUserInfo } from "@/hooks/useGithubUsername"
-import { Box, Button, Container, Flex, Loader, Text } from "@mantine/core"
+import { Box, Container, Flex, Loader, Text } from "@mantine/core"
 
-import { signOut, useSession } from "next-auth/react"
+import { useSession } from "next-auth/react"
 import Image from "next/image"
 import { FaGithub } from "react-icons/fa"
 import CreationsTable from "./CreationsTable/CreationsTable"
+import MyNavbar from "./MyNavbar"
 import TopTechnologies from "./TopTechnologies/TopTechnologies"
 
 const HomePage = () => {
@@ -19,17 +20,16 @@ const HomePage = () => {
   const techCount = useTechCount()
 
   const helloQuery = myTrpc.hello.useQuery({ text: "client" })
-  const meQuery = myTrpc.user.me.useQuery()
 
   const userInfo = useGithubUserInfo(data?.user?.image)
 
   if (!data?.user) return null
 
   return (
-    <div>
-      {meQuery?.data?.name}
-      <Button onClick={() => signOut()}>logout</Button>
-      <Container sx={{ mt: 4 }}>
+    <div style={{ width: "100%", height: "100vh" }}>
+      <MyNavbar />
+
+      <Container>
         <Flex gap={2}>
           <Box sx={{ borderRadius: 64, overflow: "hidden" }}>
             <Image

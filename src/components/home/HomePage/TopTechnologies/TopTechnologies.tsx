@@ -1,7 +1,7 @@
 import FlexVCenter from "@/components/_common/flexboxes/FlexVCenter"
 import useTechCount from "@/hooks/domain/creation/tech/useTechCount"
 import urls from "@/utils/urls"
-import { Box, Button, Flex, Text } from "@mantine/core"
+import { Box, Chip, createStyles, Flex, Text } from "@mantine/core"
 import { useRouter } from "next/router"
 
 const TopTechnologies = () => {
@@ -20,6 +20,7 @@ const TopTechnologies = () => {
     if (techs && (techs === tech || techs.includes(tech))) return true
     return false
   }
+  const { classes } = useStyles()
 
   return (
     <Flex sx={{ flexWrap: "wrap" }}>
@@ -27,36 +28,39 @@ const TopTechnologies = () => {
 
       <Flex sx={{ flexWrap: "wrap", gap: 1, ml: 1 }}>
         {techCount.map((tc) => (
-          <Button
+          <Chip
             key={tc.techName}
-            variant="outline"
-            size="sm"
-            color="inherit"
             onClick={() => handleClickTech(tc.techName)}
-            sx={{
-              fontWeight: 400,
-              backgroundColor: techIsSelected(tc.techName) ? "gray" : undefined,
-            }}
+            checked={techIsSelected(tc.techName)}
+            color="secondary"
+            display="flex"
+            classNames={classes}
           >
-            <Flex>
-              <Box>{tc.techName}</Box>
-              <FlexVCenter
-                sx={{
-                  background: "#393939",
-                  paddingLeft: 1,
-                  paddingRight: 1,
-                  borderRadius: "3px",
-                  ml: 1,
-                }}
-              >
-                {tc.count}
-              </FlexVCenter>
-            </Flex>
-          </Button>
+            <Box>{tc.techName}</Box>
+            <FlexVCenter
+              ml={8}
+              px={8}
+              sx={{
+                background: "#393939",
+                borderRadius: "3px",
+                height: "20px",
+                display: "flex",
+              }}
+            >
+              {tc.count}
+            </FlexVCenter>
+          </Chip>
         ))}
       </Flex>
     </Flex>
   )
 }
+
+const useStyles = createStyles((theme) => ({
+  label: {
+    display: "flex",
+    paddingBlock: 2,
+  },
+}))
 
 export default TopTechnologies

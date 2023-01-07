@@ -1,9 +1,13 @@
 import { buildCreationDto } from "@/types/domain/creation/CreationDto"
 import DTO from "@/types/utils/DTO"
+import { Button, Chip, Flex, Table } from "@mantine/core"
+import { MdAdd } from "react-icons/md"
 
 import { Creation } from "@prisma/client"
 import { useRouter } from "next/router"
 import { useMemo, useState } from "react"
+import { format } from "timeago.js"
+import FeatureDialog from "../FeatureDialog/FeatureDialog"
 
 interface Props {
   creations: DTO<Creation>[]
@@ -82,107 +86,98 @@ const CreationsTable = ({ creations }: Props) => {
 
   return (
     <>
-      {/* <Table>
+      <Table highlightOnHover withBorder>
         <thead>
           <tr>
-            <th>Element position</th>
-            <th>Element name</th>
-            <th>Symbol</th>
-            <th>Atomic mass</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
+            <th>Features</th>
 
-      <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
-        <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Features</TableCell>
-
-              <TableCell
-                align="center"
-                sortDirection={sort.by === "complexity" ? sort.order : false}
-              >
-                <TableSortLabel
+            <th
+              align="center"
+              // sortDirection={sort.by === "complexity" ? sort.order : false}
+            >
+              {/* <TableSortLabel
                   active={sort.by === "complexity"}
                   direction={sort.by === "complexity" ? sort.order : "desc"}
                   onClick={() => handleClickSort("complexity")}
-                >
-                  Complexity
-                </TableSortLabel>
-              </TableCell>
+                > */}
+              Complexity
+              {/* </TableSortLabel> */}
+            </th>
 
-              <TableCell
-                align="left"
-                sortDirection={sort.by === "date" ? sort.order : false}
+            <th
+              align="left"
+              // sortDirection={sort.by === "date" ? sort.order : false}
+            >
+              Developed
+            </th>
+
+            <th>Techs</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {sortedFeatures.map((feature) => (
+            <tr
+              key={feature.id}
+              onClick={() => {
+                console.log(1)
+                setDialogInitialValue(buildCreationDto(feature))
+                setDialogOpen(true)
+              }}
+              style={{
+                cursor: "pointer",
+              }}
+            >
+              <td>{feature.title}</td>
+              <td align="center">{feature.complexity}</td>
+              <td>{format(feature.date)}</td>
+              <td
+                onClick={(e) => e.stopPropagation()}
+                style={{ padding: "4px 0px" }}
               >
-                <TableSortLabel
-                  active={sort.by === "date"}
-                  direction={sort.by === "date" ? sort.order : "desc"}
-                  onClick={() => handleClickSort("date")}
-                >
-                  Developed
-                </TableSortLabel>
-              </TableCell>
+                <Flex gap={4} wrap="wrap">
+                  {feature.technologies.map((tech) => (
+                    <Chip
+                      key={tech}
+                      size="sm"
+                      checked={Boolean(techs?.includes(tech))}
+                      color="secondary"
+                      onClick={(e) => {
+                        console.log(2)
+                      }}
+                    >
+                      {tech}
+                    </Chip>
+                  ))}
+                </Flex>
+              </td>
+            </tr>
+          ))}
+        </tbody>
 
-              <TableCell>Techs</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sortedFeatures.map((feature) => (
-              <TableRow
-                key={feature.id}
-                hover
-                onClick={() => {
-                  setDialogInitialValue(buildCreationDto(feature))
-
-                  setDialogOpen(true)
-                }}
-                sx={{
-                  cursor: "pointer",
-                  "&:last-child td, &:last-child th": { border: 0 },
-                }}
-              >
-                <TableCell component="th" scope="row">
-                  {feature.title}
-                </TableCell>
-                <TableCell align="center">{feature.complexity}</TableCell>
-                <TableCell>
-                  <ReactTimeago date={feature.date} live={false} />
-                </TableCell>
-                <TableCell>
-                  <Flex gap={1} flexWrap="wrap">
-                    {feature.technologies.map((tech) => (
-                      <Chip key={tech} label={tech} size="small" />
-                    ))}
-                  </Flex>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
+        <tfoot>
+          <tr>
+            <td style={{ padding: 8 }}>
               <Button
                 onClick={() => {
                   setDialogInitialValue(buildCreationDto())
                   setDialogOpen(true)
                 }}
-                startIcon={<MdAdd />}
-                variant="contained"
+                leftIcon={<MdAdd />}
                 sx={{ width: 140, mb: 2, ml: 2 }}
               >
                 Add Feature
               </Button>
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </TableContainer>
+            </td>
+          </tr>
+        </tfoot>
+      </Table>
+
       <FeatureDialog
         initialValue={dialogInitialValue}
         onClose={() => setDialogOpen(false)}
         open={dialogOpen}
-      /> */}
+      />
     </>
   )
 }

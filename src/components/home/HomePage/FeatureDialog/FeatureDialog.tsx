@@ -59,7 +59,7 @@ const CreationDialog = (props: Props) => {
     <Modal
       onClose={handleClose}
       opened={props.open}
-      size="xs"
+      size="lg"
       aria-labelledby="creation-dialog"
       title={watch("id") ? "Edit Feature" : "New Feature"}
     >
@@ -107,7 +107,7 @@ const CreationDialog = (props: Props) => {
 
             <DatePicker
               label="Created at"
-              inputFormat="dd/MM/yyyy"
+              inputFormat="DD / MMM / YYYY"
               value={new Date(watch("date") || new Date())}
               onChange={(newValue) => {
                 setValue("date", newValue?.toJSON() || null)

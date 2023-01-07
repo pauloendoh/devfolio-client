@@ -8,12 +8,7 @@ type Props = React.ComponentProps<typeof Flex> & {
 // PE 3/3
 const FlexVCenter = (props: Props) => {
   return (
-    <Flex
-      sx={{
-        alignItems: "center",
-      }}
-      {...props}
-    >
+    <Flex align="center" {...props}>
       {props.children}
     </Flex>
   )

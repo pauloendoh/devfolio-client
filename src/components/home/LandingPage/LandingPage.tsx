@@ -1,30 +1,36 @@
 import FlexCol from "@/components/_common/flexboxes/FlexCol"
 import FlexVCenter from "@/components/_common/flexboxes/FlexVCenter"
-import { Button, Paper, Text } from "@mantine/core"
+import { Button, Divider, Flex, Paper, Text, Title } from "@mantine/core"
 import { signIn } from "next-auth/react"
 import { FaGithub } from "react-icons/fa"
 
 const LandingPage = () => {
   return (
-    <div>
+    <Flex
+      sx={{
+        width: "100%",
+        height: "100vh",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <Paper
-        sx={{
-          p: 4,
+        sx={(theme) => ({
+          paddingBlock: 16,
+          paddingInline: 24,
           width: "fit-content",
-          mt: 20,
-          mx: "auto",
-        }}
+          background: theme.colors.dark[5],
+        })}
       >
         <FlexCol gap={1} align="center">
-          <Text size="md">devfol.io</Text>
-          <Text>Porfolio for developers</Text>
+          <Title order={1} sx={{ fontWeight: "normal" }}>
+            devfol.io
+          </Title>
+
+          <Text sx={{ marginTop: 8 }}>Porfolio for developers</Text>
         </FlexCol>
 
-        <FlexVCenter mt={2}>
-          <hr style={{ width: "100%" }} />
-          <Text sx={{ px: 1, whiteSpace: "nowrap" }}>Enter via </Text>
-          <hr style={{ width: "100%" }} />
-        </FlexVCenter>
+        <Divider my="sm" label="Enter via" labelPosition="center" />
 
         <Button
           onClick={() => signIn("github")}
@@ -40,7 +46,7 @@ const LandingPage = () => {
           </FlexVCenter>
         </Button>
       </Paper>
-    </div>
+    </Flex>
   )
 }
 
