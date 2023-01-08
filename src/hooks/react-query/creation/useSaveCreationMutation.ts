@@ -25,13 +25,10 @@ const useSaveCreationMutation = () => {
         .then((res) => res.data),
     {
       onSuccess: (saved) => {
-        const creations = queryClient.getQueryData<DTO<Creation>[]>([
-          queryKeys.creations,
-        ])
-
-        const newCreations = pushOrReplace(creations, saved, "id")
-
-        queryClient.setQueryData([queryKeys.creations], newCreations)
+        queryClient.setQueryData<DTO<Creation>[]>(
+          [queryKeys.creations],
+          (curr) => pushOrReplace(curr, saved, "id")
+        )
         setSuccessMessage("Creation saved!")
       },
       onError: (err) => {
