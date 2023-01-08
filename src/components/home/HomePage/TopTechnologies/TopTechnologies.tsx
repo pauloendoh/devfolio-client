@@ -23,35 +23,32 @@ const TopTechnologies = () => {
   const { classes } = useStyles()
 
   return (
-    <Flex sx={{ flexWrap: "wrap" }}>
+    <Flex sx={{ flexWrap: "wrap", gap: 8, marginLeft: 8 }}>
       <Text>Top technologies: </Text>
-
-      <Flex sx={{ flexWrap: "wrap", gap: 8, marginLeft: 8 }}>
-        {techCount.map((tc) => (
-          <Chip
-            key={tc.techName}
-            onClick={() => handleClickTech(tc.techName)}
-            checked={techIsSelected(tc.techName)}
-            color="secondary"
-            display="flex"
-            classNames={classes}
+      {techCount.map((tc) => (
+        <Chip
+          key={tc.techName}
+          onClick={() => handleClickTech(tc.techName)}
+          checked={techIsSelected(tc.techName)}
+          color="secondary"
+          display="flex"
+          classNames={classes}
+        >
+          <Box>{tc.techName}</Box>
+          <FlexVCenter
+            ml={8}
+            px={8}
+            sx={{
+              background: "#393939",
+              borderRadius: "3px",
+              height: "20px",
+              display: "flex",
+            }}
           >
-            <Box>{tc.techName}</Box>
-            <FlexVCenter
-              ml={8}
-              px={8}
-              sx={{
-                background: "#393939",
-                borderRadius: "3px",
-                height: "20px",
-                display: "flex",
-              }}
-            >
-              {tc.count}
-            </FlexVCenter>
-          </Chip>
-        ))}
-      </Flex>
+            {tc.count}
+          </FlexVCenter>
+        </Chip>
+      ))}
     </Flex>
   )
 }
