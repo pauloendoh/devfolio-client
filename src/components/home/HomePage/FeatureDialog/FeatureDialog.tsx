@@ -1,12 +1,13 @@
 import SaveCancelButtons from "@/components/_common/buttons/SaveCancelButtons"
 import FlexVCenter from "@/components/_common/flexboxes/FlexVCenter"
 import MyTextField from "@/components/_common/inputs/MyTextField"
+import useTechCount from "@/hooks/domain/creation/tech/useTechCount"
 import useSaveCreationMutation from "@/hooks/react-query/creation/useSaveCreationMutation"
 import CreationDto from "@/types/domain/creation/CreationDto"
 import { Box, Modal, MultiSelect, Select } from "@mantine/core"
 import { DatePicker } from "@mantine/dates"
 
-import { useEffect } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import utils from "./FeatureDialog.utils"
 
@@ -19,10 +20,11 @@ interface Props {
 
 const CreationDialog = (props: Props) => {
   const { mutate } = useSaveCreationMutation()
+  const techCount = useTechCount()
 
-  // const history = useRouter();
-
-  // const { setSuccessMessage } = useSnackbarStore();
+  const [selectableTechs, setSelectableTechs] = useState(
+    techCount.map((tc) => tc.techName)
+  )
 
   const handleClose = () => {
     props.onClose()
@@ -40,6 +42,7 @@ const CreationDialog = (props: Props) => {
 
   const {
     handleSubmit,
+    setFocus,
     formState: { isSubmitting },
     register,
     watch,
@@ -51,10 +54,18 @@ const CreationDialog = (props: Props) => {
   })
 
   useEffect(() => {
-    if (props.open) reset(props.initialValue)
+    if (props.open) {
+      reset(props.initialValue)
+
+      setTimeout(() => {
+        setFocus("title")
+      }, 50)
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.open])
+
+  const inputRef = useRef<HTMLInputElement>(null)
 
   return (
     <Modal
@@ -68,10 +79,10 @@ const CreationDialog = (props: Props) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box>
             <MyTextField
-              label="Title"
+              label="Feature Title"
+              placeholder="Drag'n Drop, Dark Mode, etc."
               width="100%"
               required
-              autoFocus
               sx={{ marginTop: 16 }}
               {...register("title")}
             />
@@ -108,18 +119,29 @@ const CreationDialog = (props: Props) => {
           </FlexVCenter>
 
           <Box mt={16} />
+
           <MultiSelect
+            label="Technologies"
             id="tags-standard"
-            data={[]}
+            searchable
+            data={selectableTechs}
             value={watch("technologies")}
             // getOptionLabel={(option) => option.title}
             onChange={(val) => {
               setValue("technologies", val as string[])
             }}
+            creatable
+            getCreateLabel={(query) => `+ Create ${query}`}
+            onCreate={(query) => {
+              setSelectableTechs((curr) => [...curr, query])
+
+              const item = { value: query, label: query }
+              return item
+            }}
           />
 
           <Box mt={16} />
-          <SaveCancelButtons disabled={isSubmitting} onCancel={handleClose} />
+          <SaveCancelButtons isLoading={isSubmitting} onCancel={handleClose} />
         </form>
       </Box>
     </Modal>

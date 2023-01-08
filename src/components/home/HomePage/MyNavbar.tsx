@@ -1,7 +1,16 @@
+import FlexVCenter from "@/components/_common/flexboxes/FlexVCenter"
 import { myTrpc } from "@/hooks/trpc/myTrpc"
-import { Burger, Button, Container, createStyles, Header } from "@mantine/core"
+import {
+  Burger,
+  Button,
+  Container,
+  createStyles,
+  Header,
+  Title,
+} from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import { signOut } from "next-auth/react"
+import Link from "next/link"
 import { FaRegFolderOpen } from "react-icons/fa"
 
 const useStyles = createStyles((theme) => ({
@@ -66,7 +75,19 @@ const MyNavbar = () => {
   return (
     <Header height={60} mb={40}>
       <Container className={classes.header}>
-        <FaRegFolderOpen size={28} />
+        <Link href={"/"}>
+          <a
+            style={{
+              color: "unset",
+              textDecoration: "unset",
+            }}
+          >
+            <FlexVCenter gap={8}>
+              <FaRegFolderOpen size={28} />
+              <Title order={2}>devfol.io</Title>
+            </FlexVCenter>
+          </a>
+        </Link>
 
         <Burger
           opened={opened}
@@ -74,8 +95,6 @@ const MyNavbar = () => {
           className={classes.burger}
           size="sm"
         />
-
-        {meQuery?.data?.name}
 
         <Button onClick={() => signOut()}>logout</Button>
       </Container>

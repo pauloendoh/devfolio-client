@@ -157,7 +157,7 @@ const CreationsTable = ({ creations }: Props) => {
 
         <tfoot>
           <tr>
-            <td style={{ padding: 8 }}>
+            <td style={{ padding: 8, paddingLeft: 0 }}>
               <Button
                 onClick={() => {
                   setDialogInitialValue(buildCreationDto())
